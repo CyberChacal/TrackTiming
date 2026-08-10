@@ -8,7 +8,8 @@ How it works ?
 2. Connect the RTLSDR v4 to a Raspberry Pi 3B (or newer)
 3. Install TrackTiming on the Pi :
    - Copy files to the Pi
-   - Run sudo bash install.sh
+   - Navigate to the files folder
+   - Run: sudo bash install.sh
 4. Restart the Pi (sudo reboot) and connect to the TrackTiming WiFi access point. Adjust your settings in the admin page and start driving !
 
 Optional :
