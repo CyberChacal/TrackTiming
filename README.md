@@ -1,7 +1,8 @@
 # TrackTiming
-Improve your RC track with a simple permanent lap counting system, using only a Raspberry Pi and OpenStint decoder.
+Enhance your RC track with a simple permanent lap counting system, using only a Raspberry Pi and OpenStint decoder.
 
-No internet, no laptop, no app : anyone with a WiFi capable device can connect and see their laptimes, neatly organized as training sessions.
+This is thought as a simple, inexpensive system to track open training sessions in small RC clubs. No internet, no laptop, no app : anyone with a WiFi capable device can connect and see their laptimes, neatly organized as training sessions.
+Complete system cost is around 200€.
 
 How it works ?
 1. Install a timing loop following OpenStint recommendations : https://github.com/zsellera/openstint/blob/master/docs/setup-simple-rtlsdr.md
