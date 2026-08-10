@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Track Timing</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" sizes="180x180" href="favicon.png">
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <!-- Header Bar -->
+  <div class="header-bar">
+    <img src="favicon.png" class="header-logo" alt="Track Timing logo" style="cursor:pointer;" onclick="startAutoRefresh()">
+    <h1 class="header-title">
+      <img src="banner.png" class="header-title-image" alt="Track Timing" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+      <span class="header-title-fallback">Track Timing</span>
+    </h1>
+    <button id="voiceBtn" type="button" class="symbol" onclick="toggleVoice()" aria-label="Toggle voice" style="margin-right:4px;right:var(--touch-min);">&#x1F507;</button>
+    <button type="button" class="symbol" onclick="window.location.href='admin.html'" aria-label="Open admin menu">&#x2630;</button>
+  </div>
+
+  <div class="main-container">
+    <!-- Display Bar -->
+    <div class="display-bar">
+      <div class="display-bar-top">
+        <div class="mode-bar">
+          <button id="modeAllBtn" type="button" class="mode-btn active" onclick="setMode('all')">
+            <span class="symbol">&#x23FA;&nbsp;</span> Live
+          </button>
+          <button id="modeDriverBtn" type="button" class="mode-btn" onclick="setMode('driver')">
+            <span class="symbol">&#x23F1;&nbsp;</span> Driver
+          </button>
+          <button id="modeLeaderboardBtn" type="button" class="mode-btn" onclick="setMode('leaderboard')">
+            <span class="symbol">&#x1F3C6;&nbsp;</span> Scores
+          </button>
+          <button id="modeRaceBtn" type="button" class="mode-btn" onclick="setMode('race')">
+            <span class="symbol">&#x1F3C1;&nbsp;</span> Race
+          </button>
+        </div>
+        <div id="driverSelectWrapper" style="display:none;">
+          <select id="driverSelect" onchange="showDriverLaps()"></select>
+          <button id="exportDriverBtn" type="button" style="margin-left:8px;" onclick="exportSelectedDriverData()">
+            <span class="symbol">&#x1F847;</span>&nbsp;Save
+          </button>
+        </div>
+      </div>
+      <div class="display-bar-bottom">
+        <input type="date" id="startDate" onchange="onTimeFilterChange()">
+        <label for="endDate"><b>&ndash;</b></label>
+        <input type="date" id="endDate" onchange="onTimeFilterChange()">
+      </div>
+    </div>
+
+    <!-- Best Lap Info -->
+    <div id="bestLapDiv" class="best-lap-info" style="display:none;"></div>
+
+    <!-- Class Filter UI -->
+    <div id="classFilterWrapper" style="display:none; margin-bottom:10px;">
+      <select id="classFilter">
+        <option value="">All</option>
+      </select>
+    </div>
+
+    <!-- Main laps table -->
+    <table id="laps">
+      <thead></thead>
+      <tbody></tbody>
+    </table>
+
+    <!-- Detailed laps per driver -->
+    <div id="driverLaps" style="display:none;"></div>
+
+    <!-- Race Mode UI -->
+    <div id="raceControls" style="display:none; margin-top:20px;">
+      <div style="text-align:center;background:#eee;">
+        <label for="raceDuration">Race duration (min)</label>
+        <input type="number" id="raceDuration" min="1" max="120" value="5" style="background:none; border:none; text-align:center;">
+        <button id="raceStartBtn" onclick="startRace()" style="width:60px; min-height:40px; background:#222; border:none; color:white;">Start</button>
+      </div>
+      <div id="raceCountdown"></div>
+      <div id="raceStatus"></div>
+      <div id="raceTimer"></div>
+      <div id="raceResults"></div>
+      <div id="raceTableContainer"></div>
+    </div>
+
+    <div id="exportButtons" style="margin: 16px 0; text-align: center; display: none;">
+      <button onclick="exportCSV('drivers.csv')">Export Drivers</button>
+      <button onclick="exportCSV('laps.csv');exportCSV('sessions.csv')">Export Laps</button>
+      <button onclick="clearAllSessionNotes()">Erase Notes</button>
+    </div>
+  </div>
+</body>
+</html>

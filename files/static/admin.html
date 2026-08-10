@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Track Timing - Admin</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" sizes="180x180" href="favicon.png">
+  <script src="admin.js" defer></script>
+</head>
+
+<body>
+  <!-- Header Bar -->
+  <div class="header-bar">
+    <img src="favicon.png" class="header-logo" alt="Track Timing logo">
+    <h1 class="header-title">
+      <img src="banner.png" class="header-title-image" alt="Track Timing" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+      <span class="header-title-fallback">Track Timing</span>
+    </h1>
+    <button type="button" class="symbol"onclick="window.location.href='index.html'" aria-label="Close admin menu">&#x2716;</button>
+  </div>
+
+  <div class="main-container">
+    <!-- Combined Admin Component: left = quick/register + drivers, right = admin login + admin controls -->
+    <div id="adminComponent" class="admin-panel-row" style="gap:24px;">
+      <!-- Left column: Quick register + Recent Messages (public) + RC4 Learn (public) + Driver Edit (admin) -->
+      <div class="admin-panel-col">
+        <div class="admin-section">
+          <h3>Driver Registration</h3>
+          <form id="quickAddDriverForm" style="margin-top:0; width:100%; max-width:320px; display:flex; flex-direction:column; gap:8px;">
+            <select id="quickDriverId" required></select>
+            <input type="text" id="quickDriverName" maxlength="32" placeholder="Driver Name" required>
+            <select id="quickDriverClass"></select>
+            <button type="submit">Register Driver</button>
+            <div id="quickAddMsg"></div>
+          </form>
+        </div>
+
+        <div class="admin-section">
+          <h3>Recent Decoder Messages</h3>
+          <div id="recentMsgsContainer" style="overflow-x:auto;font-size:.85em;">
+            <i>No messages received yet.</i>
+          </div>
+        </div>
+
+        <div class="admin-section" style="padding:0; box-shadow:none; background:transparent; margin-top:12px;"> 
+          <h4>RC4 Transponder Learn</h4>
+          <div class="txlearn-row" style="display:flex;gap:8px;align-items:center;">
+            <select id="txlearnSelect" style="min-width:110px;"></select>
+            <input type="number" id="txlearnId" minlength="7" maxlength="7" placeholder="Real ID">
+            <button id="txLearnBtn" onclick="txLearn()" type="button">Rename</button>
+          </div> 
+          <div id="learnMsg"></div>
+        </div>
+
+        <div class="admin-section admin-only">
+          <h3>Driver Edit</h3>
+          <div id="driversMsg"></div>
+          <div id="driversList"></div>
+        </div>
+      </div>
+
+      <!-- Right column: Admin login + admin-only controls -->
+      <div class="admin-panel-col">
+        <div class="admin-section">
+          <h3>Admin</h3>
+          <!-- Admin login area (visible until correct password entered) -->
+          <div id="adminLoginWrapper">
+            <form id="loginForm" style="width:100%; max-width:320px; display:flex; flex-direction:column; gap:10px;">
+              <input type="password" id="pw" placeholder="Admin password" required>
+              <button type="submit">Login</button>
+              <div id="loginMsg"></div>
+            </form>
+          </div>
+
+          <!-- Admin-only controls: hidden until login -->
+          <div id="adminControls" class="admin-only">
+            <div class="admin-section" style="padding:0; box-shadow:none; background:transparent;">
+              <h4>Lap Thresholds</h4>
+              <div class="threshold-row">
+                <input id="minLap" type="number" placeholder="Min sec">
+                <input id="maxLap" type="number" placeholder="Max sec">
+                <button id="saveThresholdsBtn" onclick="saveThresholds()" type="button">Save</button>
+              </div>
+              <div id="saveMsg"></div>
+            </div>
+
+            <div class="admin-section" style="padding:0; box-shadow:none; background:transparent; margin-top:12px;">
+              <h4>Receiver Gain</h4>
+              <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                <input id="gainSlider" type="range" min="0" max="40" step="1" value="20"
+                       oninput="onGainInput()" style="flex:1;min-width:120px;">
+                <span id="gainValue" style="min-width:48px;font-weight:bold;">20 dB</span>
+                <button type="button" onclick="saveGain()">Apply</button>
+              </div>
+              <div id="gainMsg" style="font-size:.85em;color:#555;margin-top:4px;"></div>
+            </div>
+
+            <div class="admin-section" style="padding:0; box-shadow:none; background:transparent; margin-top:12px;">
+              <h4>Decoder Date/Time</h4>
+              <div class="rtc-controls">
+                <button onclick="setRtcNow()" type="button">Auto Set Clock to Device Time</button>
+              </div>
+              <div id="rtcMsg"></div>
+            </div>
+
+			      <div class="admin-section" style="padding:0; box-shadow:none; background:transparent; margin-top:12px;">
+              <h4>Classes</h4>
+              <div id="classManagerContainer">
+                <div class="driver-controls">
+                  <label for="editClassSelect" class="visually-hidden">Select Class</label>
+                  <select id="editClassSelect"><option value="">-</option></select>
+                  <button id="editClassBtn" disabled>Edit</button>
+                  <button id="deleteClassBtn" disabled>Delete</button>
+                </div>
+                <div class="driver-controls" style="margin-top:8px;">
+                  <input id="newClassName" type="text" placeholder="Class Name" maxlength="8"/>
+                  <button id="addClassBtn">Add</button>
+                </div>
+                <div id="classMsg"></div>
+              </div>
+            </div>
+
+            <div class="admin-section" style="padding:0; box-shadow:none; background:transparent; margin-top:12px;">
+              <h4>Laps</h4>
+              <div class="laps-controls">
+                <button onclick="deleteAllLaps()" type="button">Delete All Laps</button>
+                <label for="lapDriverFilter" class="visually-hidden">Filter by Driver</label>
+                <select id="lapDriverFilter">
+                <option value="">All Drivers</option>
+                </select>
+              </div>
+              <div id="lapsMsg"></div>
+              <div id="lapsTableContainer"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

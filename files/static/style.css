@@ -1,0 +1,302 @@
+:root{
+  --bg:#f4f4f4;
+  --card:#ffffff;
+  --muted:#ccc;
+  --dark:#222;
+  --accent:#0078d7;
+  --purple:#6a0dad;
+  --green:#218838;
+  --text:#222;
+
+  --radius:8px;
+  --gap:12px;
+  --base-font:16px; /* desktop base */
+  --touch-min:44px; /* recommended min touch target */
+}
+
+/* Font for icons */
+@font-face {
+  font-family: "Icons";
+  src: url("/icons.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Global */
+*, *::before, *::after { box-sizing: border-box; }
+
+/* Common control sizing */
+._ctrl { border-radius: 6px; min-height: var(--touch-min); }
+
+    /* Basic page */
+    html{
+      font-family: Tahoma, Arial, sans-serif;
+      font-size:var(--base-font);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      color:var(--text);
+      background:var(--bg);
+    }
+    body{ margin:10px; -webkit-text-size-adjust:100%; }
+
+    /* Header (shared) */
+    .header-bar{
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center; /* keeps center baseline for flex children */
+      margin-bottom:0;
+      background:var(--dark);
+      color:#fff;
+      padding-left:0.75rem;
+      padding-right:0; /* action is flush to the edge */
+      min-height:var(--touch-min);
+      gap:0.5rem;
+    }
+
+    .header-logo{
+      position:absolute;
+      left:8px;
+      height:var(--touch-min);
+    }
+
+    .header-title{
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
+      margin:0;
+      text-align:center;
+      color:#fff;
+      font-family:Arial, sans-serif;
+      font-size:clamp(1.3rem, 1.5vw, 1.5rem);
+      letter-spacing:2px;
+      max-width:calc(100% - (var(--touch-min) + 24px));
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+
+    .header-title-image{
+      display:block;
+      height:var(--touch-min);
+    }
+
+    .header-title-fallback{
+      display:none;
+      color:#fff;
+      font-family:Arial, sans-serif;
+      font-size:clamp(1.3rem, 1.5vw, 1.5rem);
+      letter-spacing:2px;
+    }
+
+    .header-action,
+    .header-bar button,
+    .header-bar .gotoadmin,
+    .header-bar #gotoAdmin,
+    .header-bar .goto-admin{
+      font-size:18px;
+      position:absolute;
+      right:0;
+      top:0;
+      bottom:0;
+      border-radius: 0;
+      transform:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:0 0.5rem;
+      background:#444;
+      color:#fff;
+      border:none;
+      cursor:pointer;
+      height:auto;
+      min-width:var(--touch-min);
+      line-height:1;
+      z-index:2;
+    }
+
+    /* Layout (shared) */
+    .main-container{
+      max-width:920px;
+      margin:20px auto;
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow:0 2px 10px rgba(0,0,0,0.08);
+      padding:18px;
+      width:calc(100% - 20px);
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+    }
+
+    /* Shared helpers */
+    hr{ border:none; border-top:2px solid #eee; margin:0.25em 0em; }
+    .visually-hidden { position: absolute !important; height: 1px; width: 1px; overflow: hidden; clip: rect(1px,1px,1px,1px); white-space: nowrap; }
+    button, input[type="button"], input[type="submit"], select{ min-height:var(--touch-min); font-size:1rem; }
+    .symbol, .session-actions .fold-btn, .session-actions .note-btn{ font-family: "Icons"; }
+    .admin-only { display: none !important; }
+    .is-admin .admin-only { display: block !important; }
+
+    /* -----------------------------
+       Index-specific styles
+       ----------------------------- */
+
+    /* Display/mode bar */
+    .display-bar{ margin-bottom:0.5em; }
+    .display-bar-bottom input{ text-align: center; }
+    .mode-bar{ display:flex; gap:var(--gap); justify-content:center; flex-wrap:nowrap; }
+    .mode-bar .mode-btn{ flex:1 1 0; min-width:0; max-width:25%; }
+    .mode-btn{ background:var(--dark); color:#fff; border:none; border-radius:10px; font-size:1.1rem; padding:0.25rem 0.4rem; min-width:0; height:48px; display:inline-flex; align-items:center; justify-content:center; cursor:pointer; transition:background 0.18s, transform 0.08s; touch-action:manipulation; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .mode-btn:active{ transform:translateY(1px); }
+    .mode-btn.active{ background:var(--accent); color:#fff; }
+
+    /* Controls cluster */
+    .display-bar-bottom{ margin-top:0.5rem; display:flex; flex-wrap:wrap; gap:0.5rem; justify-content:center; align-items:center; }
+    .display-bar-bottom label, .display-bar-bottom input, .display-bar-bottom button, select{ font-size:1rem; }
+
+    /* Driver select / export */
+    #driverSelectWrapper{ display:flex; justify-content:center; margin-top:0.5rem; margin-bottom:4px; gap:8px; }
+    #driverSelect{ min-width:200px; padding:1px 6px; height:auto; min-height:20px; text-align: center; }
+    #exportDriverBtn{ padding:1px 6px; min-height:20px; font-size:1rem; }
+
+    /* Best lap & main table */
+    .best-lap-info{ display:flex; align-items:center; justify-content:center; gap:10px; width:100%; font-size:1rem; margin:10px 0; text-align: center; flex-wrap:wrap; white-space:normal; overflow:hidden; text-overflow:ellipsis; padding:0 8px; overflow: hidden; column-gap: 12px; row-gap: 2px; }
+    .best-lap-item{ min-width: 0; white-space: normal; display: inline-block; text-align: center; }
+    #laps{ width:100%; font-size:1rem; border-collapse:collapse; margin-top:10px; background:var(--card); }
+    #laps tbody tr:nth-child(odd)  { background: #fff; }
+    #laps tbody tr:nth-child(even) { background: #eee; }
+    #laps th, #laps td{ padding:10px 6px; text-align:center; }
+    .table-wrapper{ overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    table{ border-collapse:collapse; width:100%; }
+    table th{ background:var(--dark); color:white; font-weight:normal; font-size:1.05rem;}
+    table td{ border-bottom:1px solid #eee; }
+    table th, table td{ padding:4px; text-align:center; white-space:normal; word-break:break-word; }
+    .plain-link{ color: inherit; text-decoration: none; cursor: pointer; }
+    .plain-link:hover{ text-decoration: none; }
+    .plain-link:focus{ outline: 2px solid var(--accent); }
+    .signal-cell { display: flex; align-items: center; gap: 4px; justify-content: center; }
+    .signal-bar { width: 40px; height: 8px; border-radius: 4px; background: #ddd; overflow: hidden; }
+    .signal-bar-fill { height: 100%; transition: width 0.2s ease; }
+    .signal-bar-fill.excellent { background: #22c55e; /* >= 70 */}
+    .signal-bar-fill.good {  background: #f59e0b; /* >= 40 */}
+    .signal-bar-fill.poor {  background: #ef4444; /* < 40 */}
+    .signal-label { font-size: 0.8em; font-weight: bold; }
+    .signal-label.excellent { color: #22c55e; }
+    .signal-label.good { color: #f59e0b; }
+    .signal-label.poor { color: #ef4444; }
+    
+    /* Session UI */
+    .session-day-separator{ border-top: 3px solid #bbb; margin-top: 15px; }
+    .session-day{ font-size:1.1rem; background: var(--dark); color:#fff; padding:5px; text-align:center; }
+    .session-name{ text-indent:6px; display:flex; align-items:center; justify-content:space-between; margin-top:5px; background: linear-gradient(to right, #eee,white,white); border-top:2px solid #eee; }
+    .session-stats{ font-size:0.95rem; text-indent:6px; margin:0 0 0.8em 0; line-height:1.5; border-bottom:2px solid #eee; border-left: 2px solid #eee; }
+    .session-actions { display:flex; gap:2px; align-items:center; }
+    .session-actions .fold-btn,
+    .session-actions .note-btn{ padding:6px 8px; min-height:34px; min-width:34px; font-size:0.95rem; border:0; background:#eee; cursor:pointer; }
+    .session-actions .fold-btn{ font-size: 0.85rem; }
+    .session-note{ padding:8px; background:linear-gradient(to right, #eee,white,white); border-left:2px solid #eee; }
+    .session-note-text{ width:100%; padding:8px; resize:vertical; font-size:0.95rem; border-radius:4px; border:1px solid #d0d0d8; }
+    .session-note .save-note, .session-note .close-note{ padding:6px 10px; margin-left:6px; }
+
+    /* Race UI */
+    #raceCountdown{  font-size:2em; text-align:center; margin:10px 0; }
+    #raceStatus{ font-size:1.15rem; margin:8px 0; text-align:center; }
+    #raceTimer{ font-size:1.15rem; font-weight:600; margin:8px 0; text-align:center; }
+    #raceResults{ margin-bottom: 12px; }
+    #raceResults tbody tr:nth-child(odd)  { background: #fff; }
+    #raceResults tbody tr:nth-child(even) { background: #eee; }
+    #raceTableContainer tbody tr:nth-child(odd)  { background: #fff; }
+    #raceTableContainer tbody tr:nth-child(even) { background: #eee; }
+
+    /* Class filter */
+    #classFilterWrapper{ display:flex; justify-content:center; align-items:center; margin:0.5rem 0 0.75rem; }
+    #classFilter{ display:inline-block; width:auto; text-align:center; min-width:140px; padding:1px 4px; height:auto; min-height:30px; font-size:1rem; }
+
+    /* Login form layout (used in admin login/quick add arrangement on smaller screens) */
+    .login-forms-row{ display:flex; flex-direction:row; gap:32px; justify-content:center; align-items:flex-start; }
+
+    /* -----------------------------
+       Admin-specific styles
+       ----------------------------- */
+
+    /* Driver controls (admin) */
+    .driver-controls{ display:flex; gap:8px; align-items:center; width:100%; }
+    .driver-controls select{ flex:1 1 0; min-width:0; padding:8px; }
+    .driver-controls input{ flex:1 1 0; min-width:0; padding:8px; }
+    .driver-controls button{ flex:0 0 auto; white-space:nowrap; padding:8px 10px; }
+
+    /* Threshold row */
+    .threshold-row{ display:flex; gap:8px; align-items:center; width:100%; }
+    .threshold-row input[type="number"], .threshold-row input{ flex:1 1 0; min-width:0; padding:8px; }
+    .threshold-row button{ flex:0 0 auto; padding:8px 12px; }
+
+    /* TX Learn row */
+    .txlearn-row{ display:flex; gap:8px; align-items:center; width:100%; }
+    .txlearn-row input[type="number"], .threshold-row input{ flex:1 1 0; min-width:0; padding:8px; }
+    .txlearn-row button{ flex:0 0 auto; padding:8px 12px; }
+
+    /* Admin panel layout */
+    .admin-panel-row{ display:flex; flex-direction:row; gap:32px; justify-content:flex-start; align-items:flex-start; width:100%; flex-wrap:wrap; min-height:auto; }
+    .admin-panel-col{ flex:1 1 320px; min-width:280px; display:flex; flex-direction:column; align-items:stretch; justify-content:flex-start; padding:12px; }
+
+    .admin-section{ width:100%; max-width:100%; background:var(--card); border-radius:var(--radius); padding:4px; }
+    .admin-section form, .admin-section .threshold-row, .admin-section #driversList, .admin-section #lapsTableContainer{ width:100%; }
+    .admin-section h3, .admin-section .section-header, .admin-section .info{ text-align:center; }
+    .admin-section h4{ text-align:center; margin-top:8px; margin-bottom:8px; }
+    .admin-section form{ width:100%; max-width:100% !important; display:flex; flex-direction:column; gap:8px; align-items:stretch; }
+    .admin-section form input, .admin-section form select, .admin-section form button{ width:100%; padding:8px; }
+
+    /* Laps controls and RTC */
+    .laps-controls{ display:flex; gap:8px; align-items:center; width:100%; margin-bottom:8px; }
+    .laps-controls select{ flex:1 1 0; min-width:0; padding:8px; }
+    .laps-controls button{ flex:0 0 auto; padding:8px 10px; }
+    .rtc-controls{ display:flex; justify-content:center; width:100%; margin:8px 0; }
+    .rtc-controls button{ width:auto; min-width:160px; padding:8px 12px; }
+
+    #lapsTableContainer table button{ padding:4px 6px; font-size:0.9rem; line-height:1; min-height:20px; min-width:20px; border-radius:4px; }
+    #lapsTableContainer table td button{ width:auto; }
+    #lapsTableContainer tbody tr:nth-child(odd)  { background: #fff; }
+    #lapsTableContainer tbody tr:nth-child(even) { background: #eee; }
+
+    /* -----------------------------
+       Media queries (sorted by max-width desc)
+       1) max-width:900
+       2) max-width:700
+       3) max-width:600
+       ----------------------------- */
+
+    @media (max-width:900px){
+      :root{ --base-font:16px; }
+      .main-container{ padding:14px; }
+      .mode-btn{ height:50px; padding:0.35rem 0.45rem; border-radius:6px; }
+      #driverSelect{ min-width:160px; font-size:1.0rem; padding:1px 4px; }
+      #exportDriverBtn{ padding:1px 4px; min-height:20px; }
+    }
+
+    @media (max-width:700px){
+      .login-forms-row{ flex-direction:column; gap:18px; align-items:center; }
+      #loginForm, #quickAddDriverForm{ max-width:100%; }
+    }
+
+    @media (max-width:600px){
+      :root{ --base-font:14px; }
+      body{ margin:0; overflow-x:hidden; }
+      .main-container{ max-width:100%; width:100%; margin:0; border-radius:0; box-shadow:none; padding:10px; overflow-x:hidden; }
+      .header-bar{ padding-left:0.5rem; padding-right:0; min-height:var(--touch-min); }
+      .header-action, .header-bar button, .header-bar .gotoadmin, .header-bar #gotoAdmin, .header-bar .goto-admin{ right:0; top:0; bottom:0; padding:0 6px; height:auto; z-index:2; }
+      .mode-bar{ gap:0.18rem; display:flex; flex-wrap:nowrap; }
+      .mode-bar .mode-btn{ flex:1 1 0; min-width:0; max-width:none; padding:0.2rem 0.15rem; height:36px; border-radius:6px; font-size:1.05rem }
+      .display-bar-bottom{ margin-top:0.5rem; display:flex; flex-wrap:nowrap; gap:6px; justify-content:space-between; align-items:center; }
+      .display-bar-bottom label{ font-size:0.92rem; margin:0; }
+      .display-bar-bottom select, .display-bar-bottom input[type="date"], .display-bar-bottom input[type="text"], .display-bar-bottom input[type="number"], .display-bar-bottom .timerange{ flex:0 1 46%; min-width:0; font-size:0.92rem; padding:6px 6px; border-radius:6px; }
+      table{ table-layout:auto; width:100%; }
+      table th{ font-size:1rem; }
+      table th, table td{ overflow-wrap:break-word; word-wrap:break-word; white-space:normal;}
+      table, #laps, #raceTableContainer table{ font-size:0.95rem; }
+      #laps th, #laps td{ padding:7px 4px; min-width: 50px;}
+      #laps th:first-child, #laps td:first-child{ min-width: 80px; }
+      button, input[type="button"], input[type="submit"], select{ min-height:var(--touch-min); }
+      #classFilter{ min-width:100px; width:auto; padding:1px 2px; min-height:25px; }
+      #driverSelect{ min-width:160px; font-size:1.0rem; padding:1px 4px; min-height:18px; }
+      #exportDriverBtn{ padding:1px 4px; min-height:18px; }
+    }
